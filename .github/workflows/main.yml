@@ -1,0 +1,27 @@
+name: Sync on Dispatch
+
+on:
+  repository_dispatch:
+    types: [sync-code]
+
+jobs:
+  pull:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo B
+        uses: actions/checkout@v3
+
+      - name: Clone Repo A (Dev)
+        run: |
+          git clone https://mdmojahid19:${{ secrets.DEV_REPO_TOKEN }}@github.com/mdmojahid19/test7.git temp-repo
+          cp -r temp-repo/* .
+          rm -rf temp-repo
+
+      - name: Commit & Push
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add .
+          git commit -m "Synced from Repo A" || echo "No changes to commit"
+          git push
