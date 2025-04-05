@@ -14,7 +14,7 @@ jobs:
 
       - name: Clone Repo A (Dev)
         run: |
-          git clone https://mdmojahid19:${{ secrets.DEV_REPO_TOKEN }}@github.com/mdmojahid19/test7.git temp-repo
+          git clone https://mdmojahid19:${{ secrets.PAT_FOR_GIT }}@github.com/mdmojahid19/test7.git temp-repo
           cp -r temp-repo/* .
           rm -rf temp-repo
 
