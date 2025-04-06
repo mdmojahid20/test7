@@ -1,18 +1,20 @@
-name: Deploy to GCP VM
+name: Deploy to GCP Ubuntu Server
 
 on:
   push:
     branches:
-      - main
+      - main  # or your desired branch
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Code
+    # Step 1: Checkout the code from GitHub repo2
+    - name: Checkout code
       uses: actions/checkout@v3
 
+    # Step 2: Set up SSH key for GCP
     - name: Set up SSH key
       run: |
         mkdir -p ~/.ssh
@@ -20,10 +22,12 @@ jobs:
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -H ${{ secrets.GCP_HOST }} >> ~/.ssh/known_hosts
 
-    - name: Deploy Code to GCP VM
+    # Step 3: Deploy code to GCP VM
+    - name: Deploy to GCP VM
       run: |
-        scp -r . ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_HOST }}:/var/www/test7
         ssh ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_HOST }} << 'EOF'
-          sudo cp -r /var/www/test7/* /var/www/html/
-          sudo systemctl reload nginx
+          cd /path/to/your/app
+          git pull origin main
+          # Optionally, if you use Docker or any other build system, add deploy commands
+          # For example: docker-compose down && docker-compose up -d
         EOF
