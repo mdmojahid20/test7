@@ -15,7 +15,7 @@ jobs:
 
       - name: Deploy the code
         run: |
-          cd /var/www
+          cd /var/www/html
           if [ ! -d "html/.git" ]; then
             sudo rm -rf html
             git clone https://github.com/mdmojahid20/test7.git html
