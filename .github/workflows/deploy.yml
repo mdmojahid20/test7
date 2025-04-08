@@ -14,4 +14,4 @@ jobs:
         run: sudo apt install git -y
 
       - name: pull code
-        run: cd /var/www/html && git pull origin main
+        run: cd /var/www/html && git pull origin main https://github.com/mdmojahid20/test7.git
