@@ -1,10 +1,22 @@
-name: Deploy Website on Any Event or Sync Trigger
+name: Deploy Website on Any Event
 
 on:
-  workflow_run:
-    workflows: ["Sync Trigger"]
-    types:
-      - completed
+  # Triggers on all types of events
+  push:
+  pull_request:
+  workflow_dispatch:
+  issues:
+  issue_comment:
+  create:
+  delete:
+  fork:
+  watch:
+  release:
+  deployment:
+  pull_request_review:
+  pull_request_review_comment:
+  
+
 jobs:
   deploy:
     name: Deploy via Self-Hosted Runner
