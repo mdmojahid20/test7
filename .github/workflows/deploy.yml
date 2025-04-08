@@ -1,11 +1,12 @@
-runs-on: self-hosted
+name: Test Self-Hosted Runner
 
-steps:
-  - name: Checkout code
-    uses: actions/checkout@v3
+on:
+  push:
+    branches: [main]
 
-  - name: Deploy the code
-    run: |
-      cd /var/www/html
-      git pull origin main
-      # optional: restart nginx, pm2, etc.
+jobs:
+  test:
+    runs-on: self-hosted
+    steps:
+      - name: Print hostname
+        run: cd /var/www/html && git pull origin main
