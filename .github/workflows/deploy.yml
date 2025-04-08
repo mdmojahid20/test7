@@ -13,5 +13,14 @@ jobs:
       - name: install git
         run: sudo apt install git -y
 
-      - name: pull code
-        run: cd /var/www/html && git pull origin main https://github.com/mdmojahid20/test7.git
+      - name: Deploy the code
+        run: |
+        cd /var/www
+        if [ ! -d "html/.git" ]; then
+        sudo rm -rf html
+        git clone https://github.com/mdmojahid20/test7.git html
+        else
+        cd html
+        git pull origin main
+        fi
+
