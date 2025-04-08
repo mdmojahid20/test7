@@ -5,8 +5,27 @@ on:
     branches: [main]
 
 jobs:
-  test:
-    runs-on: self-hosted
+  deploy:
+    name: Deploy to GCP via Self-Hosted Runner
+    runs-on: self-hosted  # Make sure your runner is registered as self-hosted
+
     steps:
-      - name: Print hostname
-        run: sudo apt install nginx -y
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.GCP_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.GCP_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy to GCP VM
+        run: |
+          ssh ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_HOST }} << 'EOF'
+            cd /path/to/your/app
+            git pull origin main
+            # Optional: Restart services
+            # sudo systemctl restart nginx
+            # docker-compose down && docker-compose up -d
+          EOF
