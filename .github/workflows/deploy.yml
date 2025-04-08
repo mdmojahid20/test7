@@ -1,26 +1,20 @@
-name: Test Self-Hosted Runner
+name: Deploy to Nginx Default Path
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main  # or whichever branch you want
 
 jobs:
-  test:
-    runs-on: self-hosted
+  deploy:
+    name: Pull and Deploy Code
+    runs-on: self-hosted  # This will run on your GCP VM with Nginx
+
     steps:
-      - name: Print hostname
-        run: hostname
-      - name: install git
-        run: sudo apt install git -y
+      - name: Checkout Code from GitHub
+        uses: actions/checkout@v3
 
-      - name: Deploy the code
+      - name: Copy code to Nginx default directory
         run: |
-          cd /var/www
-          if [ ! -d "html/.git" ]; then
-            sudo rm -rf html
-            git clone https://github.com/mdmojahid20/test7.git html
-          else
-            cd html
-            git pull origin main https://github.com/mdmojahid20/test7.git html
-          fi
-
+          sudo rm -rf /var/www/html/*
+          sudo cp -r * /var/www/html/
