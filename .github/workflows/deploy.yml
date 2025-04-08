@@ -1,4 +1,10 @@
-name: Deploy Website on Any Event
+name: Deploy Website on Any Event or Sync Trigger
+
+on:
+  workflow_run:
+    workflows: ["Sync Trigger"]
+    types:
+      - completed
 
 on:
   # Triggers on all types of events
