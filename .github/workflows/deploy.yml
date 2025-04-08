@@ -1,20 +1,27 @@
-name: Deploy to Nginx Default Path
+name: Deploy Website to Nginx
 
 on:
   push:
     branches:
-      - main  # or whichever branch you want
+      - main  # adjust if using a different branch
 
 jobs:
   deploy:
-    name: Pull and Deploy Code
-    runs-on: self-hosted  # This will run on your GCP VM with Nginx
+    name: Deploy via Self-Hosted Runner
+    runs-on: self-hosted  # uses your GCP runner
 
     steps:
-      - name: Checkout Code from GitHub
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Copy code to Nginx default directory
+      - name: Clean old site files
         run: |
           sudo rm -rf /var/www/html/*
-          sudo cp -r * /var/www/html/
+
+      - name: Copy new files to Nginx root
+        run: |
+          sudo cp -r . /var/www/html/
+
+      - name: (Optional) Restart Nginx
+        run: |
+          sudo systemctl restart nginx
