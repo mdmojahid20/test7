@@ -9,4 +9,9 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Print hostname
+
+      - name: install git
+        run: sudo apt install git -y
+
+      - name: pull code
         run: cd /var/www/html && git pull origin main
