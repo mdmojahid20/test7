@@ -15,12 +15,12 @@ jobs:
 
       - name: Deploy the code
         run: |
-        cd /var/www
-        if [ ! -d "html/.git" ]; then
-        sudo rm -rf html
-        git clone https://github.com/mdmojahid20/test7.git html
-        else
-        cd html
-        git pull origin main
-        fi
+          cd /var/www
+          if [ ! -d "html/.git" ]; then
+            sudo rm -rf html
+            git clone https://github.com/mdmojahid20/test7.git html
+          else
+            cd html
+            git pull origin main
+          fi
 
