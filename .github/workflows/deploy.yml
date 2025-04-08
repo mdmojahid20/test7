@@ -1,33 +1,12 @@
-name: Deploy to GCP Ubuntu Server
+name: Test Self-Hosted Runner
 
 on:
   push:
-    branches:
-      - main  # or your desired branch
+    branches: [main]
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
-
+  test:
+    runs-on: self-hosted
     steps:
-    # Step 1: Checkout the code from GitHub repo2
-    - name: Checkout code
-      uses: actions/checkout@v3
-
-    # Step 2: Set up SSH key for GCP
-    - name: Set up SSH key
-      run: |
-        mkdir -p ~/.ssh
-        echo "${{ secrets.GCP_SSH_KEY }}" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan -H ${{ secrets.GCP_HOST }} >> ~/.ssh/known_hosts
-
-    # Step 3: Deploy code to GCP VM
-    - name: Deploy to GCP VM
-      run: |
-        ssh ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_HOST }} << 'EOF'
-          cd /path/to/your/app
-          git pull origin main
-          # Optionally, if you use Docker or any other build system, add deploy commands
-          # For example: docker-compose down && docker-compose up -d
-        EOF
+      - name: Print hostname
+        run: hostname
